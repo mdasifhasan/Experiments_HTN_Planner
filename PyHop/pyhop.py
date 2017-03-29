@@ -213,7 +213,7 @@ def seek_plan(state,tasks,plan,depth,verbose=0):
         if verbose>2: print('depth {} returns plan {}'.format(depth,plan))
         return plan
     task1 = tasks[0]
-    print("subtasks:", task1[0])
+    if verbose > 2: print("ah subtasks:", task1[0])
     if task1[0] in operators:
         if verbose>2: print('depth {} action {}'.format(depth,task1))
         operator = operators[task1[0]]

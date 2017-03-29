@@ -6,6 +6,7 @@ This file should work correctly in both Python 2.7 and Python 3.2.
 
 import pyhop
 import random
+import sys
 # state variables
 
 state1 = pyhop.State('state')
@@ -93,10 +94,10 @@ def quest_on_relation(state, r):
             return [('ask_true_false_on_relation', r)]
     return []
 
-def get_random_entry(collection, a = 0):
+def get_random_entry(collection):
     return collection[random.randint(0, len(collection)-1)]
 
-def next_step(state, a = 0):
+def next_step(state, dummy):
     r = random.randint(0,100)
     if r < 25:
         return [("present_a_concept", get_random_entry(state.concepts))]
@@ -107,17 +108,17 @@ def next_step(state, a = 0):
     else:
         return [("quest_on_relation", get_random_entry(state.relations))]
 
-def done(state, a = 0):
-    return [("show_congrats", a)]
+def done(state, dummy):
+    return [("show_congrats", dummy)]
 
-def teach_knowledge(state, a = 0):
+def teach_knowledge(state, target_heard_count):
     for hc in state.concepts_heard_count:
-        if hc < 5:
-            return [('next_step', a), ('teach', a)]
+        if hc < target_heard_count:
+            return [('next_step', target_heard_count), ('teach', target_heard_count)]
     for hc in state.relations_heard_count:
-        if hc < 5:
-            return [('next_step', a), ('teach', a)]
-    return [('done', a)]
+        if hc < target_heard_count:
+            return [('next_step', target_heard_count), ('teach', target_heard_count)]
+    return [('done', target_heard_count)]
 
 # have to specify the data structure of map and then how that is to be disseminated using the existing methods
 pyhop.declare_methods('present_a_concept',present_a_concept)
@@ -135,7 +136,22 @@ pyhop.declare_methods('teach',teach_knowledge)
 
 # query
 
-pyhop.pyhop(state1,[('teach', 'a')], verbose=3)
+versbose_level = 3
+target_heard_count = 2
+if len(sys.argv) > 1:
+    if sys.argv[1] == "--help":
+        print "args: target_heard_count versbose_level"
+        exit(0)
+    target_heard_count = int(sys.argv[1])
+if len(sys.argv) > 2:
+    versbose_level = int(sys.argv[2])
+
+print "planning for target_heard_count:", target_heard_count, " with versbose_level:", versbose_level
+result = pyhop.pyhop(state1,[('teach', target_heard_count)], verbose=versbose_level)
+
+from utils_plan import *
+simulate_plan(result)
+
 #end - query
 
 
