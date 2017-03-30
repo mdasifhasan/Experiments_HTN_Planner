@@ -118,6 +118,10 @@ def print_state(state,indent=4):
     """Print each variable in state, indented by indent spaces."""
     if state != False:
         for (name,val) in vars(state).items():
+            if isinstance(val, State):
+                # sys.stdout.write(state.__name__ + '.' + name + "\n")
+                print_state(val)
+                continue
             if name != '__name__':
                 for x in range(indent): sys.stdout.write(' ')
                 sys.stdout.write(state.__name__ + '.' + name)
