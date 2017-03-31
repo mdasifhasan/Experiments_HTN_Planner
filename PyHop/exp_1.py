@@ -181,7 +181,8 @@ print "planning for target_heard_count:", target_heard_count, " with versbose_le
 result = pyhop.pyhop(state1,[('teach', target_heard_count)], verbose=versbose_level)
 
 # plot_plan(result)
-simulate_plan_execute(result, state1)
+state_data = simulate_plan_execute(result, state1)
+plot_plan(result, state_data, ["/affect/challenge", "/affect/boredom", "/affect/skill", '/affect/frustration'])
 
 #end - query
 
