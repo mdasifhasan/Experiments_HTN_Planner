@@ -1,4 +1,5 @@
 from bokeh.plotting import figure, output_file, show, ColumnDataSource, vplot, hplot, gridplot
+from bokeh.layouts import column
 from bokeh.charts import Step, Line
 from bokeh.models import HoverTool
 import numpy as np
@@ -20,8 +21,21 @@ def plot_plan(plan, state_data, varaible_names = []):
 
     (plot_s, plot_l )= plot_state(state_data, varaible_names)
 
-    show(gridplot([plot_plan_p, plot_s],[plot_plan, plot_l]))
 
+    show(gridplot(
+        children=[plot_plan, plot_plan_p, plot_s, plot_l],
+        toolbar_location='above',
+        sizing_mode = 'scale_width',
+        toolbar_options = dict(logo='grey'),
+        ncols=2
+    ))
+    # show(gridplot(
+    #     children=[plot_plan, plot_plan_p, plot_s, plot_l], toolbar_location='right', sizing_mode='scale_width',toolbar_options=dict(logo='grey'),
+    #     ncols=2
+    # ))
+    # show(column(children=[plot_plan, plot_plan_p, plot_s, plot_l], sizing_mode='stretch_both', responsive=False))
+    # show(column(children=[plot_plan, plot_plan_p, plot_s, plot_l], sizing_mode='stretch_both', responsive=False))
+    # show(vplot(plot_plan_p, plot_s,plot_plan, plot_l))
 def plot_plan_steps_with_params(plan):
     x = []
     y = []
@@ -36,25 +50,11 @@ def plot_plan_steps_with_params(plan):
         i += 1
         s = str(o) + " - " + str(v)
         y.append((ys.index(s) + 1))
-    # print "X:", x
-    # print "Y:", y
 
-    source = ColumnDataSource(
-        data=dict(
-            x=x,
-            y=y,
-            desc=[ys[k-1] for k in y],
-        )
-    )
-
-    hover = HoverTool(
-        tooltips=[
-            ("desc", "@desc"),
-        ]
-    )
-    plot = figure(title='plan operators with params', x_axis_label='step', y_axis_label='operator with param', tools=[hover], y_range=ys)
+    plot = figure(title='plan operators with params', x_axis_label='step', y_axis_label='operator with param', y_range=ys)
     # plot.line(x, y, legend='plan', line_width=4, source=source)
-    plot.line('x', 'y', line_width=4, source=source)
+    plot.line(x, y, line_width=4)
+    plot.circle(x, y, size=15, fill_color="orange", line_color="green", line_width=3)
     return plot
 
 
@@ -72,24 +72,10 @@ def plot_plan_steps(plan):
         i += 1
         s = str(o)
         y.append((ys.index(s)+1))
-
-    source = ColumnDataSource(
-        data=dict(
-            x=x,
-            y=y,
-            desc=[ys[k-1] for k in y],
-        )
-    )
-
-    hover = HoverTool(
-        tooltips=[
-            ("desc", "@desc"),
-        ]
-    )
     # p = figure()
-    plot = figure(title='plan operators', x_axis_label='step', y_axis_label='operators', tools=[hover], y_range=ys)
-    plot.line('x', 'y', line_width=4, source=source)
-
+    plot = figure(title='plan operators', x_axis_label='step', y_axis_label='operators', y_range=ys)
+    plot.line(x, y, line_width=4)
+    plot.circle(x, y, size=15, fill_color="orange", line_color="green", line_width=3)
     # s = str(ys)
     # d = dict(s = y)
     # plot = Step(y, title="plan", legend="top_left", ylabel='operator', palette=["red", "green", "blue", "navy"])
