@@ -49,7 +49,7 @@ def plot_plan_steps_with_params(plan):
         s = str(o) + " - " + str(v)
         y.append((ys.index(s) + 1))
 
-    plot = figure(title='plan operators with params', x_axis_label='step', y_axis_label='operator with param', y_range=ys)
+    plot = figure(title='plan operators with params', y_range=ys)
     # plot.line(x, y, legend='plan', line_width=4, source=source)
     plot.line(x, y, line_width=4)
     plot.circle(x, y, size=15, fill_color="orange", line_color="green", line_width=3)
@@ -71,7 +71,7 @@ def plot_plan_steps(plan):
         s = str(o)
         y.append((ys.index(s)+1))
     # p = figure()
-    plot = figure(title='plan operators', x_axis_label='step', y_axis_label='operators', y_range=ys)
+    plot = figure(title='plan operators', y_range=ys)
     plot.line(x, y, line_width=4)
     plot.circle(x, y, size=15, fill_color="orange", line_color="green", line_width=3)
     # s = str(ys)
@@ -92,8 +92,8 @@ def plot_state(state_data, varaible_names = []):
 
     # xyvalues = np.array([[2, 3, 7, 5, 26], [12, 33, 47, 15, 126], [22, 43, 10, 25, 26]])
     # xyvalues = np.array(data)
-    plot = Step(data, title="plan", legend="top_left", ylabel='operator', palette=["red", "green", "blue", "navy"])
-    plot_line = Line(data, title="plan", legend="top_left", ylabel='operator', palette=["red", "green", "blue", "navy"])
+    plot = Step(data, title="state variables - step graph", legend="top_left", ylabel='', palette=["red", "green", "blue", "orange"])
+    plot_line = Line(data, title="state variables - line graph", legend="top_left", ylabel='', palette=["red", "green", "blue", "orange"])
 
     # output_file('line.html')
     # show(plot)

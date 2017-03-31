@@ -168,7 +168,7 @@ pyhop.declare_methods('teach',teach_knowledge)
 # query
 
 versbose_level = 1
-target_heard_count = 2
+target_heard_count = 5
 if len(sys.argv) > 1:
     if sys.argv[1] == "--help":
         print "args: target_heard_count versbose_level"
