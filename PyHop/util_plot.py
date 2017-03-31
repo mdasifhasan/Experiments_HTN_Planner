@@ -4,24 +4,22 @@ from bokeh.charts import Step, Line
 from bokeh.models import HoverTool
 import numpy as np
 def test():
-    output_file("plots.html")
-
     x = range(1, 6)
     y = [10, 5, 7, 1, 6]
     plot = figure(title='Line example', x_axis_label='x', y_axis_label='y')
     plot.line(x, y, legend='Test', line_width=4)
+    output_file("plots_html/plots.html")
     show(plot)
 
 
 #result format: ('print_a_concept_1', 'Concept B'), ('print_a_concept_2', 'Concept A'),
 def plot_plan(plan, state_data, varaible_names = []):
-    output_file("plots.html")
     plot_plan = plot_plan_steps(plan)
     plot_plan_p = plot_plan_steps_with_params(plan)
 
     (plot_s, plot_l )= plot_state(state_data, varaible_names)
 
-
+    output_file("plots_html/plots.html")
     show(gridplot(
         children=[plot_plan, plot_plan_p, plot_s, plot_l],
         toolbar_location='above',
@@ -103,9 +101,6 @@ def plot_state(state_data, varaible_names = []):
 
 
 def plot_plan_bokeh_2(plan):
-    import numpy as np
-    from bokeh.charts import Line, output_file, show
-
     x = []
     y = []
     ys = []
@@ -127,7 +122,7 @@ def plot_plan_bokeh_2(plan):
     xyvalues = np.array(y)
     line = Line(xyvalues, title="plan", legend="top_left", ylabel='operator')
 
-    output_file('line.html')
+    output_file('plots_html/line.html')
     show(line)
 
 
